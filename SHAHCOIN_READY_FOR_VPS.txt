@@ -1,0 +1,26 @@
+════════════════════════════════════════════════════════════════
+   SHAHCOIN - READY FOR VPS DEPLOYMENT
+   Generated: Thu Nov  6 22:49:03 EST 2025
+════════════════════════════════════════════════════════════════
+
+CHAIN: shahcoin-1
+GENESIS HASH: b153a1aead4fc401b3b6b7cea545774b9d05ded6e5738a38d461e033c7e2a6b3
+
+FOUNDER:
+Address: shah19st4wvr5d80kxl4hf94dw38wetc5yckt0fcud8  
+Mnemonic: mango gorilla violin pioneer shuffle worth oven elite nose car weather bullet scout latin path page prepare drill candy glimpse dynamic menu liberty mutual
+
+VALIDATOR 1:
+Address: shah1kua2dznpwdgnymvadqgprhmwxz7ezudnz9vpvd
+Mnemonic: edit butter depth cricket rude absorb select enlist indoor alert false stem shadow rain verb lion nuclear mother pelican soon agent volcano season advance
+
+NEXT STEPS:
+1. Copy ~/.shahd/config/genesis.json to all 4 VPS servers
+2. Each VPS runs: shahd start --home ~/.shahd
+3. Create additional validator keys on each VPS
+4. Submit gentx for each validator
+
+DEPLOYMENT COMMAND:
+./DEPLOY_NOW.sh
+
+════════════════════════════════════════════════════════════════

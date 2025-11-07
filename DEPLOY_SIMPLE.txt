@@ -1,0 +1,106 @@
+════════════════════════════════════════════════════════════════
+   🚀 SHAHCOIN VPS DEPLOYMENT - MANUAL GUIDE
+════════════════════════════════════════════════════════════════
+
+STEP 1: Test SSH Connection
+────────────────────────────────────────────────────────────────
+Try connecting to VPS1 manually:
+
+ssh root@46.224.22.188
+Password: hwkePVgp7LquVXrTRMLd
+
+If that works, continue below. If not, check:
+- Is SSH port 22 open?
+- Is password authentication enabled in /etc/ssh/sshd_config?
+
+
+STEP 2: Deploy to Each VPS (Run these on EACH VPS)
+────────────────────────────────────────────────────────────────
+
+### Connect to VPS1:
+ssh root@46.224.22.188
+# Password: hwkePVgp7LquVXrTRMLd
+
+### Run deployment commands:
+```bash
+# Update system
+apt update && apt upgrade -y
+
+# Install Go
+cd /tmp
+wget https://go.dev/dl/go1.23.4.linux-amd64.tar.gz
+rm -rf /usr/local/go
+tar -C /usr/local -xzf go1.23.4.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> ~/.bashrc
+
+# Clone and build
+cd ~
+git clone https://github.com/SHAHCoinvip/Shahcoin-Network-PoS.git
+cd Shahcoin-Network-PoS
+go build -o /usr/local/bin/shahd ./cmd/shahd
+
+# Verify
+shahd version
+
+# Initialize node
+shahd init Val1 --chain-id shahcoin-1
+
+# Configure firewall
+ufw allow 22/tcp
+ufw allow 26656/tcp
+ufw allow 26657/tcp
+ufw allow 1317/tcp
+ufw allow 9090/tcp
+ufw --force enable
+
+echo "✅ VPS1 setup complete!"
+```
+
+### Repeat for VPS2:
+ssh root@46.224.17.54
+# Password: MvTbpVdNriJNWLhgHAJx
+# Run same commands above, but use: shahd init Val2 --chain-id shahcoin-1
+
+### Repeat for VPS3:
+ssh root@91.98.44.79
+# Password: VvgnqE493ea7fJVLsKaX
+# Use: shahd init Val3 --chain-id shahcoin-1
+
+### Repeat for VPS4:
+ssh root@46.62.247.1
+# Password: k74TNek7mFhjrNpjNhLd
+# Use: shahd init Val4 --chain-id shahcoin-1
+
+
+STEP 3: Copy Genesis File (From your Windows machine)
+────────────────────────────────────────────────────────────────
+The genesis file is at: ~/.shahd/config/genesis.json
+
+You need to copy this to all 4 VPS servers at: ~/.shah/config/genesis.json
+
+Using WinSCP or scp:
+scp ~/.shahd/config/genesis.json root@46.224.22.188:~/.shah/config/
+scp ~/.shahd/config/genesis.json root@46.224.17.54:~/.shah/config/
+scp ~/.shahd/config/genesis.json root@91.98.44.79:~/.shah/config/
+scp ~/.shahd/config/genesis.json root@46.62.247.1:~/.shah/config/
+
+
+STEP 4: Start Nodes
+────────────────────────────────────────────────────────────────
+On each VPS:
+
+shahd start --home ~/.shah
+
+
+════════════════════════════════════════════════════════════════
+ALTERNATIVE: Use your VPS provider's web console/terminal
+════════════════════════════════════════════════════════════════
+
+If SSH password authentication isn't working, you can:
+1. Log into each VPS via your hosting provider's web console
+2. Run the deployment commands manually
+3. Much more reliable than SSH with passwords
+
+════════════════════════════════════════════════════════════════
+

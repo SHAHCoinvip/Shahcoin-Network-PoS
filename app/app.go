@@ -304,19 +304,21 @@ func NewApp(
 		stakingtypes.NewMultiStakingHooks(app.DistrKeeper.Hooks(), app.SlashingKeeper.Hooks()),
 	)
 
-	// Initialize capability keeper and seal it
+	// Initialize capability keeper
 	app.CapabilityKeeper = capabilitykeeper.NewKeeper(
 		appCodec,
 		keys[capabilitytypes.StoreKey],
 		memKeys[capabilitytypes.MemStoreKey],
 	)
-	app.CapabilityKeeper.Seal()
 
-	// Create scoped keepers
+	// Create scoped keepers BEFORE sealing
 	scopedIBCKeeper := app.CapabilityKeeper.ScopeToModule(ibcexported.ModuleName)
 	scopedTransferKeeper := app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
 	app.ScopedIBCKeeper = scopedIBCKeeper
 	app.ScopedTransferKeeper = scopedTransferKeeper
+
+	// Seal after scoping all modules
+	app.CapabilityKeeper.Seal()
 
 	// IBC Keeper must be created before modules that want to create port
 	app.IBCKeeper = ibckeeper.NewKeeper(

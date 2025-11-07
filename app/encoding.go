@@ -40,6 +40,11 @@ func MakeEncodingConfig() EncodingConfig {
 func makeEncodingConfig() EncodingConfig {
 	amino := codec.NewLegacyAmino()
 	interfaceRegistry := types.NewInterfaceRegistry()
+	
+	// Register standard interfaces (includes BaseAccount, etc.)
+	std.RegisterLegacyAminoCodec(amino)
+	std.RegisterInterfaces(interfaceRegistry)
+	
 	cdc := codec.NewProtoCodec(interfaceRegistry)
 
 	// Create address codecs with shah prefix

@@ -12,8 +12,8 @@ export GO111MODULE = on
 
 build: go.sum
 	@echo "Building shahd..."
-	mkdir -p $(BUILDDIR)
-	go build -mod=readonly -o $(BUILDDIR)/shahd ./cmd/shahd
+	mkdir -p "$(BUILDDIR)"
+	go build -mod=readonly -o "$(BUILDDIR)/shahd" ./cmd/shahd
 
 install: go.sum
 	@echo "Installing shahd..."

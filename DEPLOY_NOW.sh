@@ -12,22 +12,22 @@ echo ""
 declare -A VPS=(
     [1_ip]="46.224.22.188"
     [1_user]="root"
-    [1_pass]="hwkePVgp7LquVXrTRMLd"
+    [1_pass]="Hamid1213"
     [1_name]="MainVPS-Val1"
     
     [2_ip]="46.224.17.54"
     [2_user]="root"
-    [2_pass]="MvTbpVdNriJNWLhgHAJx"
+    [2_pass]="Hamid1213"
     [2_name]="Val2"
     
     [3_ip]="91.98.44.79"
     [3_user]="root"
-    [3_pass]="VvgnqE493ea7fJVLsKaX"
+    [3_pass]="Hamid1213"
     [3_name]="Val3"
     
     [4_ip]="46.62.247.1"
     [4_user]="root"
-    [4_pass]="k74TNek7mFhjrNpjNhLd"
+    [4_pass]="Hamid1213"
     [4_name]="Val4"
 )
 

@@ -28,7 +28,8 @@ const (
 // SetConfig sets the configuration for addresses
 func SetConfig() {
 	config := sdk.GetConfig()
-	if config.GetBech32AccountAddrPrefix() == "" {
+	// Only set if not already set to "shah" (default is "cosmos")
+	if config.GetBech32AccountAddrPrefix() != Bech32MainPrefix {
 		config.SetBech32PrefixForAccount(Bech32PrefixAccAddr, Bech32PrefixAccPub)
 		config.SetBech32PrefixForValidator(Bech32PrefixValAddr, Bech32PrefixValPub)
 		config.SetBech32PrefixForConsensusNode(Bech32PrefixConsAddr, Bech32PrefixConsPub)
