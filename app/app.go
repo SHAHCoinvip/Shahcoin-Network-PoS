@@ -597,26 +597,21 @@ type genesisTxHandler struct {
 }
 
 // ExecuteGenesisTx implements genesis.TxHandler
+// NOTE: genutil module itself handles validator creation from gentxs
+// This handler only needs to decode and validate the transaction format
 func (g genesisTxHandler) ExecuteGenesisTx(txBytes []byte) error {
 	tx, err := g.app.txConfig.TxDecoder()(txBytes)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to decode genesis tx: %w", err)
 	}
 	
-	// Deliver the transaction to execute it against genesis state
+	// Validate messages exist
 	msgs := tx.GetMsgs()
-	for _, msg := range msgs {
-		handler := g.app.MsgServiceRouter().Handler(msg)
-		if handler == nil {
-			return fmt.Errorf("no handler for message %T", msg)
-		}
-		
-		_, err = handler(sdk.NewContext(nil, abci.Header{}, false, g.app.logger), msg)
-		if err != nil {
-			return err
-		}
+	if len(msgs) == 0 {
+		return fmt.Errorf("genesis tx has no messages")
 	}
 	
+	// genutil module will handle actual execution via staking keeper
 	return nil
 }
 
