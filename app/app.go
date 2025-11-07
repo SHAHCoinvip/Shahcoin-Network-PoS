@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -597,8 +598,26 @@ type genesisTxHandler struct {
 
 // ExecuteGenesisTx implements genesis.TxHandler
 func (g genesisTxHandler) ExecuteGenesisTx(txBytes []byte) error {
-	_, err := g.app.txConfig.TxDecoder()(txBytes)
-	return err
+	tx, err := g.app.txConfig.TxDecoder()(txBytes)
+	if err != nil {
+		return err
+	}
+	
+	// Deliver the transaction to execute it against genesis state
+	msgs := tx.GetMsgs()
+	for _, msg := range msgs {
+		handler := g.app.MsgServiceRouter().Handler(msg)
+		if handler == nil {
+			return fmt.Errorf("no handler for message %T", msg)
+		}
+		
+		_, err = handler(sdk.NewContext(nil, abci.Header{}, false, g.app.logger), msg)
+		if err != nil {
+			return err
+		}
+	}
+	
+	return nil
 }
 
 // LegacyAmino returns the App's amino codec.
