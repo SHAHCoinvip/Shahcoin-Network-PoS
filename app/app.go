@@ -320,6 +320,16 @@ func NewApp(
 	// Seal after scoping all modules
 	app.CapabilityKeeper.Seal()
 
+	// Initialize Upgrade Keeper
+	app.UpgradeKeeper = upgradekeeper.NewKeeper(
+		map[int64]bool{},
+		runtime.NewKVStoreService(keys[upgradetypes.StoreKey]),
+		appCodec,
+		homePath,
+		app.BaseApp,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+	)
+
 	// IBC Keeper must be created before modules that want to create port
 	app.IBCKeeper = ibckeeper.NewKeeper(
 		appCodec,
