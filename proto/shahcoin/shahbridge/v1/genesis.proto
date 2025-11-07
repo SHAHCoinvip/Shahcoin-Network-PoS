@@ -1,0 +1,27 @@
+syntax = "proto3";
+package shahcoin.shahbridge.v1;
+
+import "gogoproto/gogo.proto";
+import "shahcoin/shahbridge/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/shahbridge/types";
+
+// GenesisState defines the shahbridge module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [(gogoproto.nullable) = false];
+  
+  // channel_metadata holds channel metadata
+  repeated ChannelMetadata channels = 2 [(gogoproto.nullable) = false];
+}
+
+// ChannelMetadata holds metadata for IBC channels
+message ChannelMetadata {
+  string channel_id = 1;
+  string port_id = 2;
+  string counterparty_channel_id = 3;
+  string counterparty_port_id = 4;
+  string connection_id = 5;
+  string chain_name = 6;
+}
+

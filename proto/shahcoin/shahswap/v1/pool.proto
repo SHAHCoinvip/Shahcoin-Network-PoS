@@ -1,0 +1,45 @@
+syntax = "proto3";
+package shahcoin.shahswap.v1;
+
+import "cosmos/base/v1beta1/coin.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/shahswap/types";
+
+// Pool represents a liquidity pool
+message Pool {
+  uint64 id = 1;
+  string denom_a = 2;
+  string denom_b = 3;
+  
+  string reserve_a = 4 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+  
+  string reserve_b = 5 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+  
+  string total_lp_shares = 6 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+  
+  string total_volume = 7 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// LPPosition represents a user's liquidity provider position
+message LPPosition {
+  uint64 pool_id = 1;
+  string address = 2;
+  string lp_shares = 3 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+

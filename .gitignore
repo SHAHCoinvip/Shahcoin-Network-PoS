@@ -1,0 +1,77 @@
+# Binaries
+build/
+dist/
+*.exe
+*.dll
+*.so
+*.dylib
+shahd
+*.test
+*.out
+
+# Go
+*.o
+*.a
+vendor/
+go.work
+go.work.sum
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node/Chain data (NEVER commit these!)
+.shahd/
+.shahcoin/
+~/.shahd/
+data/
+*.log
+
+# Keys and secrets (CRITICAL - NEVER commit!)
+*.key
+*.keystore
+*_key.json
+priv_validator_key.json
+node_key.json
+keys_backup/
+keyring-*
+*.mnemonic
+*.seed
+.env
+.env.*
+secrets/
+
+# Genesis backups (optional - commit final genesis only)
+genesis.json.backup*
+
+# Test files
+*.test
+coverage.txt
+coverage.html
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# OS
+Thumbs.db
+.Trash-*
+
+# Protobuf
+*.pb.go.bak
+third_party/proto/*.bak
+
+# Build artifacts
+*.sum.bak
+
+# Terraform (if used for infrastructure)
+*.tfstate
+*.tfstate.backup
+.terraform/
+

@@ -1,0 +1,49 @@
+syntax = "proto3";
+package shahcoin.airdrop.v1;
+
+import "cosmos/msg/v1/msg.proto";
+import "gogoproto/gogo.proto";
+import "shahcoin/airdrop/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/airdrop/types";
+
+// Msg defines the airdrop Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+  
+  // Claim claims airdrop tokens
+  rpc Claim(MsgClaim) returns (MsgClaimResponse);
+  
+  // UpdateParams updates the module parameters (governance only)
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+}
+
+// MsgClaim claims airdrop tokens
+message MsgClaim {
+  option (cosmos.msg.v1.signer) = "claimer";
+  
+  string claimer = 1;
+  string amount = 2 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+  repeated bytes merkle_proof = 3;
+}
+
+message MsgClaimResponse {
+  string amount_claimed = 1 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// MsgUpdateParams updates params
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  
+  string authority = 1;
+  Params params = 2 [(gogoproto.nullable) = false];
+}
+
+message MsgUpdateParamsResponse {}
+

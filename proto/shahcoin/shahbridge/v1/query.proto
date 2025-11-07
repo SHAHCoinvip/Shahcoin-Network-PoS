@@ -1,0 +1,39 @@
+syntax = "proto3";
+package shahcoin.shahbridge.v1;
+
+import "google/api/annotations.proto";
+import "gogoproto/gogo.proto";
+import "shahcoin/shahbridge/v1/params.proto";
+import "shahcoin/shahbridge/v1/genesis.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/shahbridge/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Params queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/shahcoin/shahbridge/v1/params";
+  }
+  
+  // Channels queries all registered channels
+  rpc Channels(QueryChannelsRequest) returns (QueryChannelsResponse) {
+    option (google.api.http).get = "/shahcoin/shahbridge/v1/channels";
+  }
+}
+
+// QueryParamsRequest is the request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is the response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryChannelsRequest is the request type for Query/Channels
+message QueryChannelsRequest {}
+
+// QueryChannelsResponse is the response type for Query/Channels
+message QueryChannelsResponse {
+  repeated ChannelMetadata channels = 1 [(gogoproto.nullable) = false];
+}
+

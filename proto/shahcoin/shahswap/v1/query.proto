@@ -1,0 +1,94 @@
+syntax = "proto3";
+package shahcoin.shahswap.v1;
+
+import "google/api/annotations.proto";
+import "gogoproto/gogo.proto";
+import "shahcoin/shahswap/v1/params.proto";
+import "shahcoin/shahswap/v1/pool.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/shahswap/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Params queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/shahcoin/shahswap/v1/params";
+  }
+  
+  // Pool queries a pool by ID
+  rpc Pool(QueryPoolRequest) returns (QueryPoolResponse) {
+    option (google.api.http).get = "/shahcoin/shahswap/v1/pools/{pool_id}";
+  }
+  
+  // Pools queries all pools
+  rpc Pools(QueryPoolsRequest) returns (QueryPoolsResponse) {
+    option (google.api.http).get = "/shahcoin/shahswap/v1/pools";
+  }
+  
+  // SpotPrice queries the spot price for a swap
+  rpc SpotPrice(QuerySpotPriceRequest) returns (QuerySpotPriceResponse) {
+    option (google.api.http).get = "/shahcoin/shahswap/v1/spot_price/{pool_id}";
+  }
+  
+  // LPPosition queries a user's LP position
+  rpc LPPosition(QueryLPPositionRequest) returns (QueryLPPositionResponse) {
+    option (google.api.http).get = "/shahcoin/shahswap/v1/lp_position/{pool_id}/{address}";
+  }
+}
+
+// QueryParamsRequest is the request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is the response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryPoolRequest is request type for Query/Pool RPC method
+message QueryPoolRequest {
+  uint64 pool_id = 1;
+}
+
+// QueryPoolResponse is response type for Query/Pool RPC method
+message QueryPoolResponse {
+  Pool pool = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryPoolsRequest is request type for Query/Pools RPC method
+message QueryPoolsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryPoolsResponse is response type for Query/Pools RPC method
+message QueryPoolsResponse {
+  repeated Pool pools = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QuerySpotPriceRequest is request for spot price
+message QuerySpotPriceRequest {
+  uint64 pool_id = 1;
+  string denom_in = 2;
+  string denom_out = 3;
+}
+
+// QuerySpotPriceResponse is response for spot price
+message QuerySpotPriceResponse {
+  string spot_price = 1 [
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// QueryLPPositionRequest is request for LP position
+message QueryLPPositionRequest {
+  uint64 pool_id = 1;
+  string address = 2;
+}
+
+// QueryLPPositionResponse is response for LP position
+message QueryLPPositionResponse {
+  LPPosition position = 1 [(gogoproto.nullable) = false];
+}
+

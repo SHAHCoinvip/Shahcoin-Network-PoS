@@ -1,0 +1,18 @@
+syntax = "proto3";
+package shahcoin.fees.v1;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/fees/types";
+
+// Params defines the parameters for the fees module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+  // usd_rate is the SHAH/USD conversion rate for fee estimation
+  string usd_rate = 1 [
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+}
+

@@ -1,0 +1,24 @@
+syntax = "proto3";
+package shahcoin.treasury.v1;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/treasury/types";
+
+// Params defines the parameters for the treasury module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+  // pricing_mode: "manual" or "market"
+  string pricing_mode = 1;
+  
+  // target_rate is the SHAH/USD rate when pricing_mode = manual
+  string target_rate = 2 [
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+  
+  // fee_bps is the fee in basis points (e.g., 50 = 0.5%)
+  uint64 fee_bps = 3;
+}
+

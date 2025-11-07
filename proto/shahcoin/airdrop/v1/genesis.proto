@@ -1,0 +1,26 @@
+syntax = "proto3";
+package shahcoin.airdrop.v1;
+
+import "gogoproto/gogo.proto";
+import "shahcoin/airdrop/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/airdrop/types";
+
+// GenesisState defines the airdrop module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [(gogoproto.nullable) = false];
+  
+  // merkle_root is the root of the Merkle tree for claims
+  string merkle_root = 2;
+  
+  // claimed is a map of addresses that have claimed (stored as list)
+  repeated string claimed_addresses = 3;
+  
+  // start_time is when claims can begin
+  int64 start_time = 4;
+  
+  // end_time is when claims end
+  int64 end_time = 5;
+}
+

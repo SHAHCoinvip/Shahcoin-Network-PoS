@@ -1,0 +1,15 @@
+syntax = "proto3";
+package shahcoin.monitoring.v1;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/monitoring/types";
+
+// Params defines the parameters for the monitoring module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+  // metrics_enabled controls whether metrics are collected
+  bool metrics_enabled = 1;
+}
+

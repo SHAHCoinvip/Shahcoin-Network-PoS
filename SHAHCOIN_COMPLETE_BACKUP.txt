@@ -1,0 +1,168 @@
+═══════════════════════════════════════════════════════════════
+                 SHAHCOIN VALIDATOR KEYS BACKUP
+                    ⚠️  KEEP THIS SAFE! ⚠️
+═══════════════════════════════════════════════════════════════
+
+Chain ID: shahcoin-1
+Genesis Hash: 24696c968a5724f0f8c979e4990d08324b23b38e05022b302ca4bc08024c29d2
+Total Supply: 63,000,000 SHAH
+Date Created: 2025-11-06
+
+═══════════════════════════════════════════════════════════════
+                        FOUNDER KEY
+═══════════════════════════════════════════════════════════════
+
+Name: founder
+Address: cosmos1aflsq2qe46ty0shg96h580k364wltu55dkfwt5
+Allocation: 15,750,000 SHAH (25%)
+Role: Team, Development, Treasury Management
+
+Mnemonic (24 words):
+during include chest say wrap scatter cheese scatter flame dawn manual hope veteran pulp arrive marriage wine peasant humor phrase disorder desk lumber violin
+
+⚠️  Store this mnemonic in a password manager!
+⚠️  NEVER share with anyone!
+⚠️  This controls 15.75 MILLION SHAH!
+
+═══════════════════════════════════════════════════════════════
+                      VALIDATOR 1 KEY
+═══════════════════════════════════════════════════════════════
+
+Name: validator1
+Address: cosmos1khfnffmuspscxg3y824879qyg94s69gzcg8xds
+Allocation: 15,750,000 SHAH (25%)
+Stake: 10,000,000 SHAH
+Moniker: "SHAH Genesis Validator 1"
+
+Mnemonic (24 words):
+grass spawn unfold target educate recall name six love bike soda skin dilemma gold axis ugly appear wash game fee poet strategy pudding phone
+
+═══════════════════════════════════════════════════════════════
+                      VALIDATOR 2 KEY
+═══════════════════════════════════════════════════════════════
+
+Name: validator2
+Address: cosmos1ae0cyj62q2cr2u8nprgmuahdmzukmhz7fsxm4m
+Allocation: 15,750,000 SHAH (25%)
+Stake: 10,000,000 SHAH
+Moniker: "SHAH Genesis Validator 2"
+
+Mnemonic (24 words):
+puzzle august dilemma oblige confirm champion blossom vibrant radio source dinner staff audit guard butter sister defy gym pipe baby minute estate upper enact
+
+═══════════════════════════════════════════════════════════════
+                      VALIDATOR 3 KEY
+═══════════════════════════════════════════════════════════════
+
+Name: validator3
+Address: cosmos1rq00hp04awxvnjfqzmmpg02h64hdgph3vf2495
+Allocation: 15,750,000 SHAH (25%)
+Stake: 10,000,000 SHAH
+Moniker: "SHAH Genesis Validator 3"
+
+Mnemonic (24 words):
+method blue sustain time gown load never boil author man win about escape drift gap behave smoke cash teach museum crash whale issue minute
+
+═══════════════════════════════════════════════════════════════
+                      VALIDATOR 4 KEY
+═══════════════════════════════════════════════════════════════
+
+Name: validator4
+Address: cosmos1clxka3qh3g469awpcd09v2zuy6yw8s4nk5ck3z
+Allocation: 15,750,000 SHAH (25%)
+Stake: 10,000,000 SHAH
+Moniker: "SHAH Genesis Validator 4"
+
+Mnemonic (24 words):
+inner account expose forest liar monster horn april baby buffalo truly ginger thumb flight opinion prepare marble exotic cost loyal ridge announce picture angle
+
+═══════════════════════════════════════════════════════════════
+                      DISTRIBUTION SUMMARY
+═══════════════════════════════════════════════════════════════
+
+Total Supply: 63,000,000 SHAH
+
+Allocation:
+  Founder:     15,750,000 SHAH (25%) - Team & Development
+  Validator 1: 15,750,000 SHAH (25%) - Will stake 10M
+  Validator 2: 15,750,000 SHAH (25%) - Will stake 10M
+  Validator 3: 15,750,000 SHAH (25%) - Will stake 10M
+  Validator 4: 15,750,000 SHAH (25%) - Will stake 10M
+  
+Total Staked: 40,000,000 SHAH (63.5%)
+Remaining Liquid: 23,000,000 SHAH (36.5%)
+
+═══════════════════════════════════════════════════════════════
+                    SECURITY INSTRUCTIONS
+═══════════════════════════════════════════════════════════════
+
+✅ DO:
+  1. Store this file in encrypted location
+  2. Copy to password manager (1Password, LastPass, Bitwarden)
+  3. Print and store in safe/vault
+  4. Keep 3 copies in different locations
+  5. Encrypt with strong password
+  6. Never email or message these mnemonics
+
+❌ DON'T:
+  1. NEVER commit to GitHub
+  2. NEVER share with anyone
+  3. NEVER store in plain text cloud storage
+  4. NEVER take screenshots
+  5. NEVER type into random websites claiming to "validate"
+
+═══════════════════════════════════════════════════════════════
+                    RECOVERY INSTRUCTIONS
+═══════════════════════════════════════════════════════════════
+
+To recover any key:
+
+./build/shahd keys add <key-name> --recover --keyring-backend test
+
+Then paste the 24-word mnemonic when prompted.
+
+Example:
+  ./build/shahd keys add founder --recover --keyring-backend test
+  > Enter your bip39 mnemonic
+  during include chest say wrap scatter...
+
+═══════════════════════════════════════════════════════════════
+                        CONTACT INFO
+═══════════════════════════════════════════════════════════════
+
+If keys are lost or compromised:
+  - Immediately create new keys
+  - Migrate funds to new addresses
+  - Update validators
+  - Notify team
+
+For production, consider:
+  - Hardware wallet (Ledger/Trezor)
+  - Multisig for treasury (founder account)
+  - HSM for validator signing keys
+  - Shamir's Secret Sharing for backup
+
+═══════════════════════════════════════════════════════════════
+                        DEPLOYMENT INFO
+═══════════════════════════════════════════════════════════════
+
+Genesis File: ~/.shah/config/genesis.json
+Genesis Hash: 24696c968a5724f0f8c979e4990d08324b23b38e05022b302ca4bc08024c29d2
+Chain ID: shahcoin-1
+Keyring Backend: test (for local), file (for production)
+
+On VPS deployment (Day 6):
+  - Transfer these mnemonics securely
+  - Import on each respective VPS
+  - Use 'file' backend with strong passwords
+  - Delete plain text after import
+
+═══════════════════════════════════════════════════════════════
+
+🔐 THIS FILE CONTROLS 63 MILLION SHAH - PROTECT IT!
+
+Created: 2025-11-06
+Status: Ready for Deployment
+
+═══════════════════════════════════════════════════════════════
+

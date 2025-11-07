@@ -1,0 +1,99 @@
+syntax = "proto3";
+package shahcoin.treasury.v1;
+
+import "cosmos/base/v1beta1/coin.proto";
+import "cosmos/msg/v1/msg.proto";
+import "gogoproto/gogo.proto";
+import "shahcoin/treasury/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/treasury/types";
+
+// Msg defines the treasury Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+  
+  // MintShahUSD mints SHAHUSD (admin/gov only)
+  rpc MintShahUSD(MsgMintShahUSD) returns (MsgMintShahUSDResponse);
+  
+  // BurnShahUSD burns SHAHUSD
+  rpc BurnShahUSD(MsgBurnShahUSD) returns (MsgBurnShahUSDResponse);
+  
+  // BuyShah buys SHAH from treasury with SHAHUSD
+  rpc BuyShah(MsgBuyShah) returns (MsgBuyShahResponse);
+  
+  // SellShah sells SHAH to treasury for SHAHUSD
+  rpc SellShah(MsgSellShah) returns (MsgSellShahResponse);
+  
+  // UpdateParams updates the module parameters (governance only)
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+}
+
+// MsgMintShahUSD mints SHAHUSD
+message MsgMintShahUSD {
+  option (cosmos.msg.v1.signer) = "authority";
+  
+  string authority = 1;
+  string recipient = 2;
+  string amount = 3 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+message MsgMintShahUSDResponse {}
+
+// MsgBurnShahUSD burns SHAHUSD
+message MsgBurnShahUSD {
+  option (cosmos.msg.v1.signer) = "sender";
+  
+  string sender = 1;
+  string amount = 2 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+message MsgBurnShahUSDResponse {}
+
+// MsgBuyShah buys SHAH from treasury
+message MsgBuyShah {
+  option (cosmos.msg.v1.signer) = "buyer";
+  
+  string buyer = 1;
+  cosmos.base.v1beta1.Coin shahusd_in = 2 [(gogoproto.nullable) = false];
+  string min_shah_out = 3 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+message MsgBuyShahResponse {
+  cosmos.base.v1beta1.Coin shah_out = 1 [(gogoproto.nullable) = false];
+}
+
+// MsgSellShah sells SHAH to treasury
+message MsgSellShah {
+  option (cosmos.msg.v1.signer) = "seller";
+  
+  string seller = 1;
+  cosmos.base.v1beta1.Coin shah_in = 2 [(gogoproto.nullable) = false];
+  string min_shahusd_out = 3 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+message MsgSellShahResponse {
+  cosmos.base.v1beta1.Coin shahusd_out = 1 [(gogoproto.nullable) = false];
+}
+
+// MsgUpdateParams updates params
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  
+  string authority = 1;
+  Params params = 2 [(gogoproto.nullable) = false];
+}
+
+message MsgUpdateParamsResponse {}
+

@@ -1,0 +1,24 @@
+syntax = "proto3";
+package shahcoin.shahswap.v1;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/shahswap/types";
+
+// Params defines the parameters for the shahswap module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+  // trade_fee is the trading fee percentage (e.g., "0.003" for 0.3%)
+  string trade_fee = 1 [
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+  
+  // protocol_cut is the percentage of fees that go to treasury (e.g., "0.16" for 16%)
+  string protocol_cut = 2 [
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+}
+

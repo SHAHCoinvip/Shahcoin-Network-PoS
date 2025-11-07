@@ -1,0 +1,14 @@
+syntax = "proto3";
+package shahcoin.fees.v1;
+
+import "gogoproto/gogo.proto";
+import "shahcoin/fees/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/fees/types";
+
+// GenesisState defines the fees module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+

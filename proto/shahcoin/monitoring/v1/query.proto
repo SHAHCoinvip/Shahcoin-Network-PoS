@@ -1,0 +1,39 @@
+syntax = "proto3";
+package shahcoin.monitoring.v1;
+
+import "google/api/annotations.proto";
+import "gogoproto/gogo.proto";
+import "shahcoin/monitoring/v1/params.proto";
+import "shahcoin/monitoring/v1/genesis.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/monitoring/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Params queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/shahcoin/monitoring/v1/params";
+  }
+  
+  // Metrics queries current chain metrics
+  rpc Metrics(QueryMetricsRequest) returns (QueryMetricsResponse) {
+    option (google.api.http).get = "/shahcoin/monitoring/v1/metrics";
+  }
+}
+
+// QueryParamsRequest is the request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is the response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryMetricsRequest is the request type for Query/Metrics
+message QueryMetricsRequest {}
+
+// QueryMetricsResponse is the response type for Query/Metrics
+message QueryMetricsResponse {
+  Metrics metrics = 1 [(gogoproto.nullable) = false];
+}
+

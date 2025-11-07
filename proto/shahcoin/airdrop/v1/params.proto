@@ -1,0 +1,15 @@
+syntax = "proto3";
+package shahcoin.airdrop.v1;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/airdrop/types";
+
+// Params defines the parameters for the airdrop module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+  // airdrop_enabled controls whether claims are accepted
+  bool airdrop_enabled = 1;
+}
+

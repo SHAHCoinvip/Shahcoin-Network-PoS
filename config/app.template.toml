@@ -1,0 +1,96 @@
+# This is a TOML config file for Shahcoin.
+# For more information, see https://github.com/toml-lang/toml
+
+###############################################################################
+###                           Base Configuration                            ###
+###############################################################################
+
+# The minimum gas prices a validator is willing to accept for processing a
+# transaction. A transaction's fees must meet the minimum of any denomination
+# specified in this config (e.g. 1000shahi).
+minimum-gas-prices = "1000shahi"
+
+# HaltHeight contains a non-zero block height at which a node will gracefully
+# halt and shutdown that can be used to assist upgrades and testing.
+halt-height = 0
+
+# HaltTime contains a non-zero minimum block time (in Unix seconds) at which
+# a node will gracefully halt and shutdown that can be used to assist upgrades
+# and testing.
+halt-time = 0
+
+###############################################################################
+###                         Telemetry Configuration                         ###
+###############################################################################
+
+[telemetry]
+enabled = true
+service-name = ""
+enable-hostname = false
+enable-hostname-label = false
+enable-service-label = false
+prometheus-retention-time = 0
+global-labels = []
+
+###############################################################################
+###                           API Configuration                             ###
+###############################################################################
+
+[api]
+# Enable defines if the API server should be enabled.
+enable = true
+
+# Swagger defines if swagger documentation should automatically be registered.
+swagger = true
+
+# Address defines the API server to listen on.
+address = "tcp://0.0.0.0:1317"
+
+# MaxOpenConnections defines the number of maximum open connections.
+max-open-connections = 1000
+
+# RPCReadTimeout defines the Tendermint RPC read timeout (in seconds).
+rpc-read-timeout = 10
+
+# RPCWriteTimeout defines the Tendermint RPC write timeout (in seconds).
+rpc-write-timeout = 0
+
+# RPCMaxBodyBytes defines the Tendermint maximum response body (in bytes).
+rpc-max-body-bytes = 1000000
+
+# EnableUnsafeCORS defines if CORS should be enabled (unsafe - use it for development only).
+enabled-unsafe-cors = true
+
+###############################################################################
+###                           gRPC Configuration                            ###
+###############################################################################
+
+[grpc]
+# Enable defines if the gRPC server should be enabled.
+enable = true
+
+# Address defines the gRPC server address to bind to.
+address = "0.0.0.0:9090"
+
+###############################################################################
+###                        State Sync Configuration                         ###
+###############################################################################
+
+# State sync snapshots allow other nodes to rapidly join the network without replaying historical
+# blocks, instead downloading and applying a snapshot of the application state at a given height.
+[state-sync]
+# snapshot-interval specifies the block interval at which local state sync snapshots are
+# taken (0 to disable). Must be a multiple of pruning-keep-every.
+snapshot-interval = 1000
+
+# snapshot-keep-recent specifies the number of recent snapshots to keep and serve (0 to keep all).
+snapshot-keep-recent = 2
+
+###############################################################################
+###                         Store Configuration                             ###
+###############################################################################
+
+[store]
+# The type of database for application and snapshots databases.
+app-db-backend = "goleveldb"
+

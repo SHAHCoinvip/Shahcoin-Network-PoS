@@ -1,0 +1,27 @@
+syntax = "proto3";
+package shahcoin.monitoring.v1;
+
+import "cosmos/msg/v1/msg.proto";
+import "gogoproto/gogo.proto";
+import "shahcoin/monitoring/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/monitoring/types";
+
+// Msg defines the monitoring Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+  
+  // UpdateParams updates the module parameters (governance only)
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+}
+
+// MsgUpdateParams updates params
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  
+  string authority = 1;
+  Params params = 2 [(gogoproto.nullable) = false];
+}
+
+message MsgUpdateParamsResponse {}
+

@@ -1,0 +1,47 @@
+syntax = "proto3";
+package shahcoin.fees.v1;
+
+import "google/api/annotations.proto";
+import "gogoproto/gogo.proto";
+import "shahcoin/fees/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/fees/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Params queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/shahcoin/fees/v1/params";
+  }
+  
+  // EstimateTxFee estimates the fee for a transaction
+  rpc EstimateTxFee(QueryEstimateTxFeeRequest) returns (QueryEstimateTxFeeResponse) {
+    option (google.api.http).get = "/shahcoin/fees/v1/estimate";
+  }
+}
+
+// QueryParamsRequest is the request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is the response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryEstimateTxFeeRequest is the request type for Query/EstimateTxFee
+message QueryEstimateTxFeeRequest {
+  uint64 gas = 1;
+}
+
+// QueryEstimateTxFeeResponse is the response type for Query/EstimateTxFee
+message QueryEstimateTxFeeResponse {
+  string fee_shahi = 1 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+  string fee_usd = 2 [
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+}
+

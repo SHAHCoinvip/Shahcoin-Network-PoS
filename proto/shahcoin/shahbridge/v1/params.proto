@@ -1,0 +1,15 @@
+syntax = "proto3";
+package shahcoin.shahbridge.v1;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/shahbridge/types";
+
+// Params defines the parameters for the shahbridge module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+  // bridge_enabled controls whether bridging is allowed
+  bool bridge_enabled = 1;
+}
+

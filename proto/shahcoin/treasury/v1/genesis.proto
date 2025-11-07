@@ -1,0 +1,26 @@
+syntax = "proto3";
+package shahcoin.treasury.v1;
+
+import "gogoproto/gogo.proto";
+import "shahcoin/treasury/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/treasury/types";
+
+// GenesisState defines the treasury module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [(gogoproto.nullable) = false];
+  
+  // reserve_shah is the amount of SHAH held in reserve
+  string reserve_shah = 2 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+  
+  // reserve_shahusd is the amount of SHAHUSD held in reserve
+  string reserve_shahusd = 3 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+

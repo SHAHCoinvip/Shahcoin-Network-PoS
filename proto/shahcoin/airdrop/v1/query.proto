@@ -1,0 +1,40 @@
+syntax = "proto3";
+package shahcoin.airdrop.v1;
+
+import "google/api/annotations.proto";
+import "gogoproto/gogo.proto";
+import "shahcoin/airdrop/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/airdrop/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Params queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/shahcoin/airdrop/v1/params";
+  }
+  
+  // ClaimStatus queries whether an address has claimed
+  rpc ClaimStatus(QueryClaimStatusRequest) returns (QueryClaimStatusResponse) {
+    option (google.api.http).get = "/shahcoin/airdrop/v1/claim_status/{address}";
+  }
+}
+
+// QueryParamsRequest is the request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is the response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryClaimStatusRequest is the request type for Query/ClaimStatus
+message QueryClaimStatusRequest {
+  string address = 1;
+}
+
+// QueryClaimStatusResponse is the response type for Query/ClaimStatus
+message QueryClaimStatusResponse {
+  bool claimed = 1;
+}
+

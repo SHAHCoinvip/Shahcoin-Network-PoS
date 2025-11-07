@@ -1,0 +1,61 @@
+syntax = "proto3";
+package shahcoin.treasury.v1;
+
+import "google/api/annotations.proto";
+import "gogoproto/gogo.proto";
+import "shahcoin/treasury/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/treasury/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Params queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/shahcoin/treasury/v1/params";
+  }
+  
+  // Reserves queries the treasury reserves
+  rpc Reserves(QueryReservesRequest) returns (QueryReservesResponse) {
+    option (google.api.http).get = "/shahcoin/treasury/v1/reserves";
+  }
+  
+  // PolicyRate queries the current policy rate
+  rpc PolicyRate(QueryPolicyRateRequest) returns (QueryPolicyRateResponse) {
+    option (google.api.http).get = "/shahcoin/treasury/v1/policy_rate";
+  }
+}
+
+// QueryParamsRequest is the request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is the response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryReservesRequest is the request type for Query/Reserves
+message QueryReservesRequest {}
+
+// QueryReservesResponse is the response type for Query/Reserves
+message QueryReservesResponse {
+  string reserve_shah = 1 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+  string reserve_shahusd = 2 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// QueryPolicyRateRequest is the request type for Query/PolicyRate
+message QueryPolicyRateRequest {}
+
+// QueryPolicyRateResponse is the response type for Query/PolicyRate
+message QueryPolicyRateResponse {
+  string rate = 1 [
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
+    (gogoproto.nullable) = false
+  ];
+}
+

@@ -1,0 +1,28 @@
+syntax = "proto3";
+package shahcoin.monitoring.v1;
+
+import "gogoproto/gogo.proto";
+import "shahcoin/monitoring/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/monitoring/types";
+
+// GenesisState defines the monitoring module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [(gogoproto.nullable) = false];
+  
+  // metrics holds the current metrics
+  Metrics metrics = 2 [(gogoproto.nullable) = false];
+}
+
+// Metrics holds chain metrics
+message Metrics {
+  uint64 total_transactions = 1;
+  uint64 active_validators = 2;
+  string total_swap_volume = 3 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+  int64 last_block_time = 4;
+}
+

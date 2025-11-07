@@ -1,0 +1,121 @@
+syntax = "proto3";
+package shahcoin.shahswap.v1;
+
+import "cosmos/base/v1beta1/coin.proto";
+import "cosmos/msg/v1/msg.proto";
+import "gogoproto/gogo.proto";
+import "shahcoin/shahswap/v1/params.proto";
+
+option go_package = "github.com/shahcoin/shahcoin/x/shahswap/types";
+
+// Msg defines the shahswap Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+  
+  // CreatePool creates a new liquidity pool
+  rpc CreatePool(MsgCreatePool) returns (MsgCreatePoolResponse);
+  
+  // AddLiquidity adds liquidity to an existing pool
+  rpc AddLiquidity(MsgAddLiquidity) returns (MsgAddLiquidityResponse);
+  
+  // RemoveLiquidity removes liquidity from a pool
+  rpc RemoveLiquidity(MsgRemoveLiquidity) returns (MsgRemoveLiquidityResponse);
+  
+  // SwapExactIn swaps an exact amount of input tokens
+  rpc SwapExactIn(MsgSwapExactIn) returns (MsgSwapExactInResponse);
+  
+  // UpdateParams updates the module parameters (governance only)
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+}
+
+// MsgCreatePool creates a new liquidity pool
+message MsgCreatePool {
+  option (cosmos.msg.v1.signer) = "creator";
+  
+  string creator = 1;
+  cosmos.base.v1beta1.Coin coin_a = 2 [(gogoproto.nullable) = false];
+  cosmos.base.v1beta1.Coin coin_b = 3 [(gogoproto.nullable) = false];
+}
+
+message MsgCreatePoolResponse {
+  uint64 pool_id = 1;
+  string lp_shares = 2 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// MsgAddLiquidity adds liquidity to a pool
+message MsgAddLiquidity {
+  option (cosmos.msg.v1.signer) = "sender";
+  
+  string sender = 1;
+  uint64 pool_id = 2;
+  cosmos.base.v1beta1.Coin coin_a = 3 [(gogoproto.nullable) = false];
+  cosmos.base.v1beta1.Coin coin_b = 4 [(gogoproto.nullable) = false];
+  string min_lp_shares = 5 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+message MsgAddLiquidityResponse {
+  string lp_shares = 1 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// MsgRemoveLiquidity removes liquidity from a pool
+message MsgRemoveLiquidity {
+  option (cosmos.msg.v1.signer) = "sender";
+  
+  string sender = 1;
+  uint64 pool_id = 2;
+  string lp_shares = 3 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+  string min_coin_a = 4 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+  string min_coin_b = 5 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+message MsgRemoveLiquidityResponse {
+  cosmos.base.v1beta1.Coin coin_a = 1 [(gogoproto.nullable) = false];
+  cosmos.base.v1beta1.Coin coin_b = 2 [(gogoproto.nullable) = false];
+}
+
+// MsgSwapExactIn swaps exact amount in
+message MsgSwapExactIn {
+  option (cosmos.msg.v1.signer) = "sender";
+  
+  string sender = 1;
+  uint64 pool_id = 2;
+  cosmos.base.v1beta1.Coin coin_in = 3 [(gogoproto.nullable) = false];
+  string denom_out = 4;
+  string min_amount_out = 5 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+message MsgSwapExactInResponse {
+  cosmos.base.v1beta1.Coin coin_out = 1 [(gogoproto.nullable) = false];
+}
+
+// MsgUpdateParams updates params
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  
+  string authority = 1;
+  Params params = 2 [(gogoproto.nullable) = false];
+}
+
+message MsgUpdateParamsResponse {}
+
