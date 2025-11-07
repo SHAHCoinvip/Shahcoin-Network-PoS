@@ -16,6 +16,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/cosmos/gogoproto/proto"
 )
 
 // EncodingConfig specifies the concrete encoding types to use for a given app.
@@ -50,9 +51,9 @@ func makeEncodingConfig() EncodingConfig {
 	validatorCodec := codecaddress.NewBech32Codec("shahvaloper")
 	consensusCodec := codecaddress.NewBech32Codec("shahvalcons")
 	
-	// Create interface registry WITH address codecs
+	// Create interface registry WITH address codecs (using proto.HybridResolver)
 	interfaceRegistry, err := types.NewInterfaceRegistryWithOptions(types.InterfaceRegistryOptions{
-		ProtoFiles: nil,
+		ProtoFiles: proto.HybridResolver,
 		SigningOptions: signing.Options{
 			AddressCodec:          addressCodec,
 			ValidatorAddressCodec: validatorCodec,
