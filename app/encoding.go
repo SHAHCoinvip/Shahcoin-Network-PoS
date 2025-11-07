@@ -11,6 +11,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/std"
 	"github.com/cosmos/cosmos-sdk/x/auth/tx"
+	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
 // EncodingConfig specifies the concrete encoding types to use for a given app.
@@ -39,18 +44,37 @@ func MakeEncodingConfig() EncodingConfig {
 
 func makeEncodingConfig() EncodingConfig {
 	amino := codec.NewLegacyAmino()
-	interfaceRegistry := types.NewInterfaceRegistry()
 	
-	// Register standard interfaces (includes BaseAccount, etc.)
-	std.RegisterLegacyAminoCodec(amino)
-	std.RegisterInterfaces(interfaceRegistry)
-	
-	cdc := codec.NewProtoCodec(interfaceRegistry)
-
-	// Create address codecs with shah prefix
+	// Create address codecs with shah prefix FIRST
 	addressCodec := codecaddress.NewBech32Codec("shah")
 	validatorCodec := codecaddress.NewBech32Codec("shahvaloper")
 	consensusCodec := codecaddress.NewBech32Codec("shahvalcons")
+	
+	// Create interface registry WITH address codecs
+	interfaceRegistry, err := types.NewInterfaceRegistryWithOptions(types.InterfaceRegistryOptions{
+		ProtoFiles: nil,
+		SigningOptions: signing.Options{
+			AddressCodec:          addressCodec,
+			ValidatorAddressCodec: validatorCodec,
+		},
+	})
+	if err != nil {
+		panic(err)
+	}
+	
+	// Register standard interfaces
+	std.RegisterLegacyAminoCodec(amino)
+	std.RegisterInterfaces(interfaceRegistry)
+	
+	// CRITICAL: Manually register auth module interfaces to fix genesis commands
+	// This must be done here to avoid circular dependency with ModuleBasics
+	authtypes.RegisterInterfaces(interfaceRegistry)
+	vestingtypes.RegisterInterfaces(interfaceRegistry)
+	banktypes.RegisterInterfaces(interfaceRegistry)
+	stakingtypes.RegisterInterfaces(interfaceRegistry)
+	govv1.RegisterInterfaces(interfaceRegistry)
+	
+	cdc := codec.NewProtoCodec(interfaceRegistry)
 
 	// Create signing options
 	signingOptions := signing.Options{
