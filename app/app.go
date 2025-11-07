@@ -517,6 +517,10 @@ func NewApp(
 	)
 
 	app.mm.RegisterInvariants(app.CrisisKeeper)
+	
+	// Register all module interfaces before registering services
+	ModuleBasics.RegisterInterfaces(interfaceRegistry)
+	
 	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	err := app.mm.RegisterServices(app.configurator)
 	if err != nil {
