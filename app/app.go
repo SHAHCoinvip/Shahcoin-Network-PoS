@@ -518,7 +518,6 @@ func NewApp(
 		govtypes.ModuleName,
 		minttypes.ModuleName,
 		crisistypes.ModuleName,
-		genutiltypes.ModuleName,
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
@@ -531,6 +530,7 @@ func NewApp(
 		"airdrop",
 		"monitoring",
 		"shahbridge",
+		genutiltypes.ModuleName,  // MUST be last to process gentxs!
 	)
 
 	app.mm.RegisterInvariants(app.CrisisKeeper)
