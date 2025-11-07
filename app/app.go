@@ -325,7 +325,7 @@ func NewApp(
 		map[int64]bool{},
 		runtime.NewKVStoreService(keys[upgradetypes.StoreKey]),
 		appCodec,
-		homePath,
+		DefaultNodeHome,
 		app.BaseApp,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
