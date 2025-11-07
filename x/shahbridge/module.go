@@ -13,7 +13,6 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	"github.com/cosmos/cosmos-sdk/types/msgservice"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc/codes"
@@ -150,7 +149,8 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil), &pb.MsgUpdateParams{})
-	msgservice.RegisterMsgServiceDesc(registry, &pb.Msg_ServiceDesc)
+	// Note: Service descriptor registration disabled due to proto descriptor compatibility issues
+	// msgservice.RegisterMsgServiceDesc(registry, &pb.Msg_ServiceDesc)
 }
 
 // Module

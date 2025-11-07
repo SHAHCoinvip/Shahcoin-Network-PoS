@@ -1,11 +1,13 @@
 package app
 
 import (
+	"cosmossdk.io/x/upgrade"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/cosmos/cosmos-sdk/x/auth/vesting"
 	"github.com/cosmos/cosmos-sdk/x/bank"
 	consensus "github.com/cosmos/cosmos-sdk/x/consensus"
+	"github.com/cosmos/cosmos-sdk/x/crisis"
 	distr "github.com/cosmos/cosmos-sdk/x/distribution"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
@@ -46,6 +48,8 @@ func NewBasicManagerWithCodec() module.BasicManager {
 		slashing.AppModuleBasic{},
 		vesting.AppModuleBasic{},
 		consensus.AppModuleBasic{},
+		crisis.AppModuleBasic{},
+		upgrade.AppModuleBasic{},
 		// IBC
 		ibc.AppModuleBasic{},
 		transfer.AppModuleBasic{},

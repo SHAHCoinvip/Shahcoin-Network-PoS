@@ -189,6 +189,10 @@ func NewApp(
 	appCodec := encodingConfig.Codec
 	legacyAmino := encodingConfig.Amino
 	interfaceRegistry := encodingConfig.InterfaceRegistry
+	
+	// Register all module interfaces FIRST, before creating any keepers
+	ModuleBasics.RegisterInterfaces(interfaceRegistry)
+	ModuleBasics.RegisterLegacyAminoCodec(legacyAmino)
 	txConfig := encodingConfig.TxConfig
 
 	bApp := baseapp.NewBaseApp(AppName, logger, db, txConfig.TxDecoder(), baseAppOptions...)
@@ -297,6 +301,19 @@ func NewApp(
 		authtypes.FeeCollectorName,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 		app.AccountKeeper.AddressCodec(),
+	)
+
+	// Initialize Gov Keeper
+	app.GovKeeper = *govkeeper.NewKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[govtypes.StoreKey]),
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.StakingKeeper,
+		app.DistrKeeper,
+		app.MsgServiceRouter(),
+		govtypes.DefaultConfig(),
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
 	// register the staking hooks
@@ -517,9 +534,6 @@ func NewApp(
 	)
 
 	app.mm.RegisterInvariants(app.CrisisKeeper)
-	
-	// Register all module interfaces before registering services
-	ModuleBasics.RegisterInterfaces(interfaceRegistry)
 	
 	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	err := app.mm.RegisterServices(app.configurator)

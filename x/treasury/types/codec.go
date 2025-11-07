@@ -4,7 +4,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/msgservice"
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
@@ -24,5 +23,6 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgUpdateParams{},
 	)
 
-	msgservice.RegisterMsgServiceDesc(registry, &Msg_ServiceDesc)
+	// Note: Service descriptor registration disabled due to proto descriptor compatibility issues
+	// msgservice.RegisterMsgServiceDesc(registry, &Msg_ServiceDesc)
 }
