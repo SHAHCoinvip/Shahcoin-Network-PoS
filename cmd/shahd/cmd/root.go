@@ -135,8 +135,9 @@ func queryCommand() *cobra.Command {
 		server.QueryBlockResultsCmd(),
 	)
 
-	// Add module query commands (now works with SDK v0.53.4 + address codecs)
-	app.ModuleBasics.AddQueryCommands(cmd)
+	// Note: AddQueryCommands requires codec-initialized modules
+	// Commenting out temporarily to allow basic operations
+	// app.ModuleBasics.AddQueryCommands(cmd)
 
 	return cmd
 }
@@ -162,8 +163,9 @@ func txCommand() *cobra.Command {
 		authcmd.GetSimulateCmd(),
 	)
 
-	// Add module tx commands (now works with SDK v0.53.4 + address codecs)
-	app.ModuleBasics.AddTxCommands(cmd)
+	// Note: AddTxCommands requires codec-initialized modules
+	// Commenting out temporarily to allow basic operations
+	// app.ModuleBasics.AddTxCommands(cmd)
 
 	return cmd
 }
